@@ -56,6 +56,8 @@ export set the visual language: indigo accent (`#574fe6`), light background
 Hanken Grotesk (body) and Space Grotesk (headings), card radius 18px, control
 radius 11px.
 
+https://claude.ai/design/p/df64ff66-e04b-4d1a-8a25-53d6a53ef05f?file=Manage+Habits.dc.html&via=share
+
 ## Test step
 
 Wrote `e2e/manage-habits.spec.ts` (7 tests) from the six acceptance criteria,
