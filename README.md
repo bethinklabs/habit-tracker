@@ -85,6 +85,8 @@ You build the habit tracker with two loops: brainstorm the whole product once, t
 
 Start Claude Code in this folder and use Superpowers brainstorming to turn "a habit tracker" into a concrete list of features.
 
+**Model: Opus 4.8, xhigh effort.** Set it in Claude Code with `/model` before you start.
+
 ```
 /superpowers:brainstorming
 ```
@@ -95,11 +97,13 @@ Work with Claude until you have a feature list you are happy with. That list dri
 
 For every feature on the list, repeat these steps until the feature is done:
 
-1. **Brainstorm the feature in detail.** Run `/superpowers:brainstorming` again, this time on one feature. Pin down how it behaves and where it stops.
-2. **Design it.** Open Claude Design on [claude.ai](https://claude.ai) or in the Claude Desktop app and create the UI for the feature. This design is your visual target.
-3. **Write the test cases.** Define Playwright tests that describe what the feature does when it works. The design plus these tests are the goal you build toward.
-4. **Plan and build it.** Use `/superpowers:writing-plans` to turn the feature into an implementation plan, then `/superpowers:executing-plans` to build it.
+1. **Brainstorm the feature in detail.** Run `/superpowers:brainstorming` again, this time on one feature. Pin down how it behaves and where it stops. *Model: Opus 4.8, xhigh effort.*
+2. **Design it.** Open Claude Design on [claude.ai](https://claude.ai) or in the Claude Desktop app and create the UI for the feature. This design is your visual target. *Model: Sonnet 5, xhigh effort.*
+3. **Write the test cases.** Define Playwright tests that describe what the feature does when it works. The design plus these tests are the goal you build toward. This is part of brainstorming, so use the same model. *Model: Opus 4.8, xhigh effort.*
+4. **Plan and build it.** Use `/superpowers:writing-plans` to turn the feature into an implementation plan, then `/superpowers:executing-plans` to build it. *Model for both: Sonnet 5, xhigh effort.*
 5. **Loop until it matches.** Keep going until the running app matches the design and every Playwright test passes. Then move to the next feature.
+
+Set the model in Claude Code with `/model` (and effort with `/model` or the effort selector); in Claude Design, pick the model in the Claude app.
 
 ## Running and testing
 
