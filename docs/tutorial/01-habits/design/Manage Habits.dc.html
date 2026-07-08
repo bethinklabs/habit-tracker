@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  ::selection { background: var(--accent-soft); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-hover); }
+  input::placeholder { color: var(--text-3); }
+
+  :root, [data-theme="light"] {
+    --bg: #f5f6f8; --bg-grad: radial-gradient(1200px 600px at 100% -10%, rgba(87,80,232,.06), transparent 60%);
+    --surface: #ffffff; --surface-2: #eef0f4; --surface-3: #e7eaf0;
+    --border: #e5e8ee; --border-strong: #d5dae2;
+    --text: #14161c; --text-2: #565d6b; --text-3: #99a0ad;
+    --accent: #574fe6; --accent-hover: #443dcb; --accent-soft: rgba(87,79,230,.10); --accent-contrast: #ffffff;
+    --danger: #e5484d; --danger-hover: #cc3a3f; --danger-soft: rgba(229,72,77,.10); --danger-contrast: #ffffff;
+    --sh-sm: 0 1px 2px rgba(20,22,28,.05), 0 1px 3px rgba(20,22,28,.05);
+    --sh-md: 0 8px 24px -8px rgba(20,22,28,.14), 0 2px 8px -4px rgba(20,22,28,.08);
+    --sh-lg: 0 32px 72px -20px rgba(20,22,28,.34), 0 12px 32px -14px rgba(20,22,28,.20);
+  }
+  [data-theme="dark"] {
+    --bg: #0c0d11; --bg-grad: radial-gradient(1200px 600px at 100% -10%, rgba(143,139,255,.10), transparent 60%);
+    --surface: #15171d; --surface-2: #1c1f27; --surface-3: #232733;
+    --border: #262a33; --border-strong: #343a46;
+    --text: #f0f2f5; --text-2: #a2a9b6; --text-3: #6b7280;
+    --accent: #8f8bff; --accent-hover: #a7a3ff; --accent-soft: rgba(143,139,255,.15); --accent-contrast: #0c0d11;
+    --danger: #ff6369; --danger-hover: #ff7d82; --danger-soft: rgba(255,99,105,.15); --danger-contrast: #0c0d11;
+    --sh-sm: 0 1px 2px rgba(0,0,0,.4);
+    --sh-md: 0 10px 28px -10px rgba(0,0,0,.6), 0 3px 10px -4px rgba(0,0,0,.4);
+    --sh-lg: 0 44px 96px -28px rgba(0,0,0,.72), 0 14px 36px -14px rgba(0,0,0,.5);
+  }
+  [data-accent="teal"] { --accent: #0e9e8e; --accent-hover: #0b857a; --accent-soft: rgba(14,158,142,.10); --accent-contrast: #ffffff; }
+  [data-theme="dark"][data-accent="teal"] { --accent: #3fd0bd; --accent-hover: #59d8c8; --accent-soft: rgba(63,208,189,.15); --accent-contrast: #0c0d11; }
+  [data-accent="amber"] { --accent: #cf7c1f; --accent-hover: #b56b17; --accent-soft: rgba(207,124,31,.12); --accent-contrast: #ffffff; }
+  [data-theme="dark"][data-accent="amber"] { --accent: #f0a94e; --accent-hover: #f5b968; --accent-soft: rgba(240,169,78,.16); --accent-contrast: #0c0d11; }
+  [data-accent="rose"] { --accent: #e2457d; --accent-hover: #c93a6f; --accent-soft: rgba(226,69,125,.10); --accent-contrast: #ffffff; }
+  [data-theme="dark"][data-accent="rose"] { --accent: #ff7aa8; --accent-hover: #ff90b8; --accent-soft: rgba(255,122,168,.16); --accent-contrast: #0c0d11; }
+</style>
+</helmet>
+<div data-theme="{{ theme }}" data-accent="{{ accentAttr }}" style="min-height:100vh;background:var(--bg);background-image:var(--bg-grad);color:var(--text);font-family:'Hanken Grotesk',system-ui,sans-serif;font-size:15px;line-height:1.5;padding:28px 20px 80px;transition:background .3s ease,color .3s ease;">
+  <div style="max-width:720px;margin:0 auto;">
+
+    <header style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:28px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:38px;height:38px;border-radius:11px;background:var(--accent);color:var(--accent-contrast);display:flex;align-items:center;justify-content:center;box-shadow:var(--sh-sm);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+        </div>
+        <div>
+          <div style="font-family:'Space Grotesk';font-weight:600;font-size:19px;letter-spacing:-.01em;line-height:1.1;">Habits</div>
+          <div style="font-size:12.5px;color:var(--text-3);">Build a routine, one habit at a time</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="display:flex;padding:3px;gap:2px;background:var(--surface-2);border:1px solid var(--border);border-radius:11px;">
+          <button onClick="{{ setManage }}" style="{{ tabManageStyle }}" style-hover="color:var(--text)">Manage</button>
+          <button onClick="{{ setSystem }}" style="{{ tabSystemStyle }}" style-hover="color:var(--text)">System</button>
+        </div>
+        <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--surface);color:var(--text-2);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh-sm);transition:color .16s,background .16s;" style-hover="color:var(--text);background:var(--surface-2)">
+          <sc-if value="{{ isDark }}" hint-placeholder-val="{{ true }}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+          </sc-if>
+          <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+          </sc-if>
+        </button>
+      </div>
+    </header>
+
+    <sc-if value="{{ isManage }}" hint-placeholder-val="{{ true }}">
+    <main data-screen-label="Manage Habits">
+
+      <form onSubmit="{{ onAddSubmit }}" data-addform style="background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--sh-md);padding:22px;margin-bottom:24px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>
+          <h2 style="margin:0;font-family:'Space Grotesk';font-weight:600;font-size:16px;letter-spacing:-.01em;">Add a habit</h2>
+        </div>
+
+        <div style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;">
+          <div style="flex:2 1 220px;min-width:180px;">
+            <label style="display:block;font-size:12.5px;font-weight:600;color:var(--text-2);margin-bottom:7px;">Habit name</label>
+            <input data-addfield="name" value="{{ form.name }}" onInput="{{ onName }}" placeholder="e.g. Drink water" style="height:46px;width:100%;padding:0 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:15px;font-family:'Hanken Grotesk';outline:none;transition:border-color .16s,box-shadow .16s;" style-focus="border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)">
+            <sc-if value="{{ errors.name }}" hint-placeholder-val="">
+              <p data-errmsg style="display:flex;align-items:center;gap:6px;margin:8px 0 0;font-size:12.5px;color:var(--danger);"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16.5v.01"></path></svg>{{ errors.name }}</p>
+            </sc-if>
+          </div>
+
+          <div style="flex:0 0 auto;">
+            <label style="display:block;font-size:12.5px;font-weight:600;color:var(--text-2);margin-bottom:7px;">Daily target</label>
+            <div data-addfield="target" style="display:flex;align-items:center;height:46px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface);">
+              <button type="button" onClick="{{ stepTargetDown }}" aria-label="Decrease" style="width:40px;height:100%;border:none;background:transparent;color:var(--text-2);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .14s;" style-hover="background:var(--surface-2);color:var(--text)">−</button>
+              <input value="{{ form.target }}" onInput="{{ onTargetInput }}" inputmode="numeric" style="width:56px;height:100%;text-align:center;border:none;border-left:1px solid var(--border);border-right:1px solid var(--border);background:transparent;color:var(--text);font-size:15px;font-weight:600;font-family:'Space Grotesk';outline:none;">
+              <button type="button" onClick="{{ stepTargetUp }}" aria-label="Increase" style="width:40px;height:100%;border:none;background:transparent;color:var(--text-2);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .14s;" style-hover="background:var(--surface-2);color:var(--text)">+</button>
+            </div>
+            <sc-if value="{{ errors.target }}" hint-placeholder-val="">
+              <p data-errmsg style="display:flex;align-items:center;gap:6px;margin:8px 0 0;font-size:12.5px;color:var(--danger);max-width:150px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16.5v.01"></path></svg>{{ errors.target }}</p>
+            </sc-if>
+          </div>
+
+          <div style="flex:1 1 130px;min-width:110px;">
+            <label style="display:block;font-size:12.5px;font-weight:600;color:var(--text-2);margin-bottom:7px;">Unit <span style="color:var(--text-3);font-weight:400;">· optional</span></label>
+            <input value="{{ form.unit }}" onInput="{{ onUnit }}" placeholder="glasses" style="height:46px;width:100%;padding:0 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:15px;font-family:'Hanken Grotesk';outline:none;transition:border-color .16s,box-shadow .16s;" style-focus="border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)">
+          </div>
+
+          <div style="flex:0 0 auto;align-self:flex-start;padding-top:27px;">
+            <button type="submit" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 22px;border:none;border-radius:12px;background:var(--accent);color:var(--accent-contrast);font-family:'Hanken Grotesk';font-size:15px;font-weight:600;cursor:pointer;box-shadow:var(--sh-sm);transition:background .16s,transform .1s;" style-hover="background:var(--accent-hover)" style-active="transform:scale(.97)">Add habit</button>
+          </div>
+        </div>
+      </form>
+
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin:0 4px 12px;">
+        <h3 style="margin:0;font-family:'Space Grotesk';font-weight:600;font-size:14px;color:var(--text-2);letter-spacing:.02em;text-transform:uppercase;">Your habits</h3>
+        <span style="font-size:13px;color:var(--text-3);font-variant-numeric:tabular-nums;">{{ countLabel }}</span>
+      </div>
+
+      <sc-if value="{{ hasHabits }}" hint-placeholder-val="{{ true }}">
+        <div ref="{{ listRef }}" style="background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--sh-md);overflow:hidden;">
+          <sc-for list="{{ viewHabits }}" as="item" hint-placeholder-count="4">
+            <div data-row="{{ item.id }}" style="border-top:1px solid var(--border);">
+              <sc-if value="{{ item.editing }}" hint-placeholder-val="">
+                <form data-editform="{{ item.id }}" onSubmit="{{ item.onEditSubmit }}" style="padding:18px;background:var(--surface-2);">
+                  <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
+                    <div style="flex:2 1 200px;min-width:160px;">
+                      <label style="display:block;font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:6px;">Habit name</label>
+                      <input data-editfield="name" value="{{ item.ev.name }}" onInput="{{ item.onEditName }}" style="height:44px;width:100%;padding:0 13px;border-radius:11px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-size:15px;font-family:'Hanken Grotesk';outline:none;transition:border-color .16s,box-shadow .16s;" style-focus="border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)">
+                      <sc-if value="{{ item.everr.name }}" hint-placeholder-val="">
+                        <p style="display:flex;align-items:center;gap:6px;margin:7px 0 0;font-size:12px;color:var(--danger);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16.5v.01"></path></svg>{{ item.everr.name }}</p>
+                      </sc-if>
+                    </div>
+                    <div style="flex:0 0 auto;">
+                      <label style="display:block;font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:6px;">Daily target</label>
+                      <div data-editfield="target" style="display:flex;align-items:center;height:44px;border:1px solid var(--border-strong);border-radius:11px;overflow:hidden;background:var(--surface);">
+                        <button type="button" onClick="{{ item.onEditStepDown }}" style="width:38px;height:100%;border:none;background:transparent;color:var(--text-2);font-size:19px;cursor:pointer;" style-hover="background:var(--surface-2);color:var(--text)">−</button>
+                        <input value="{{ item.ev.target }}" onInput="{{ item.onEditTarget }}" inputmode="numeric" style="width:52px;height:100%;text-align:center;border:none;border-left:1px solid var(--border-strong);border-right:1px solid var(--border-strong);background:transparent;color:var(--text);font-size:15px;font-weight:600;font-family:'Space Grotesk';outline:none;">
+                        <button type="button" onClick="{{ item.onEditStepUp }}" style="width:38px;height:100%;border:none;background:transparent;color:var(--text-2);font-size:19px;cursor:pointer;" style-hover="background:var(--surface-2);color:var(--text)">+</button>
+                      </div>
+                    </div>
+                    <div style="flex:1 1 110px;min-width:100px;">
+                      <label style="display:block;font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:6px;">Unit</label>
+                      <input value="{{ item.ev.unit }}" onInput="{{ item.onEditUnit }}" placeholder="optional" style="height:44px;width:100%;padding:0 13px;border-radius:11px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-size:15px;font-family:'Hanken Grotesk';outline:none;transition:border-color .16s,box-shadow .16s;" style-focus="border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)">
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
+                    <button type="button" onClick="{{ onCancelEdit }}" style="height:40px;padding:0 16px;border-radius:10px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-family:'Hanken Grotesk';font-size:14px;font-weight:600;cursor:pointer;transition:background .16s;" style-hover="background:var(--surface-3)">Cancel</button>
+                    <button type="submit" style="height:40px;padding:0 18px;border-radius:10px;border:none;background:var(--accent);color:var(--accent-contrast);font-family:'Hanken Grotesk';font-size:14px;font-weight:600;cursor:pointer;transition:background .16s;" style-hover="background:var(--accent-hover)">Save changes</button>
+                  </div>
+                </form>
+              </sc-if>
+              <sc-if value="{{ item.display }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;align-items:center;gap:14px;padding:16px 18px;transition:background .16s;" style-hover="background:var(--surface-2)">
+                  <div style="min-width:0;flex:1;">
+                    <div style="font-size:15.5px;font-weight:600;letter-spacing:-.005em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ item.name }}</div>
+                    <div style="margin-top:5px;display:inline-flex;align-items:center;gap:6px;padding:2px 9px;border-radius:7px;background:var(--accent-soft);color:var(--accent);font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;">{{ item.targetLabel }}</div>
+                  </div>
+                  <div style="flex:0 0 auto;width:1px;height:26px;background:var(--border);"></div>
+                  <div style="flex:0 0 auto;display:flex;align-items:center;gap:4px;">
+                    <button onClick="{{ item.onEdit }}" aria-label="Edit" style="width:38px;height:38px;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--text-2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .14s,color .14s;" style-hover="background:var(--surface-3);color:var(--text)">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg>
+                    </button>
+                    <button onClick="{{ item.onDelete }}" aria-label="Delete" style="width:38px;height:38px;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--text-2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .14s,color .14s;" style-hover="background:var(--danger-soft);color:var(--danger)">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path></svg>
+                    </button>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isEmpty }}" hint-placeholder-val="">
+        <div style="text-align:center;padding:54px 24px;background:var(--surface);border:1px dashed var(--border-strong);border-radius:18px;">
+          <div style="width:64px;height:64px;margin:0 auto 18px;border-radius:18px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+          </div>
+          <h3 style="margin:0 0 6px;font-family:'Space Grotesk';font-weight:600;font-size:18px;">No habits yet</h3>
+          <p style="margin:0 auto;max-width:320px;color:var(--text-2);font-size:14px;">Add your first habit above to start building a routine. Small, daily, repeatable.</p>
+        </div>
+      </sc-if>
+
+    </main>
+    </sc-if>
+
+    <sc-if value="{{ isSystem }}" hint-placeholder-val="">
+      <main data-screen-label="Design System">
+        <div style="display:grid;gap:16px;">
+
+          <section style="background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--sh-sm);padding:22px;">
+            <div style="font-family:'Space Grotesk';font-weight:600;font-size:13px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px;">Color</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;">
+              <sc-for list="{{ swatches }}" as="sw" hint-placeholder-count="6">
+                <div>
+                  <div style="height:56px;border-radius:12px;border:1px solid var(--border);background:{{ sw.css }};"></div>
+                  <div style="margin-top:7px;font-size:12.5px;font-weight:600;">{{ sw.name }}</div>
+                  <div style="font-size:11.5px;color:var(--text-3);">{{ sw.role }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+
+          <section style="background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--sh-sm);padding:22px;">
+            <div style="font-family:'Space Grotesk';font-weight:600;font-size:13px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;">Type</div>
+            <div style="font-size:12.5px;color:var(--text-3);margin-bottom:16px;">Space Grotesk for display · Hanken Grotesk for body</div>
+            <div style="display:grid;gap:14px;">
+              <div style="display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--border);padding-bottom:14px;"><span style="width:78px;flex:0 0 auto;font-size:11.5px;color:var(--text-3);">32 / display</span><span style="font-family:'Space Grotesk';font-weight:600;font-size:32px;letter-spacing:-.02em;">Consistency</span></div>
+              <div style="display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--border);padding-bottom:14px;"><span style="width:78px;flex:0 0 auto;font-size:11.5px;color:var(--text-3);">24 / title</span><span style="font-family:'Space Grotesk';font-weight:600;font-size:24px;letter-spacing:-.01em;">Manage habits</span></div>
+              <div style="display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--border);padding-bottom:14px;"><span style="width:78px;flex:0 0 auto;font-size:11.5px;color:var(--text-3);">16 / heading</span><span style="font-weight:600;font-size:16px;">A calm daily routine</span></div>
+              <div style="display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--border);padding-bottom:14px;"><span style="width:78px;flex:0 0 auto;font-size:11.5px;color:var(--text-3);">15 / body</span><span style="font-size:15px;color:var(--text-2);">Track the habits that matter and let the rest go.</span></div>
+              <div style="display:flex;align-items:baseline;gap:16px;"><span style="width:78px;flex:0 0 auto;font-size:11.5px;color:var(--text-3);">13 / label</span><span style="font-size:13px;font-weight:600;color:var(--text-2);letter-spacing:.02em;text-transform:uppercase;">Daily target</span></div>
+            </div>
+          </section>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+            <section style="background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--sh-sm);padding:22px;">
+              <div style="font-family:'Space Grotesk';font-weight:600;font-size:13px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px;">Radius &amp; spacing</div>
+              <div style="display:flex;align-items:flex-end;gap:14px;margin-bottom:20px;">
+                <div style="text-align:center;"><div style="width:48px;height:48px;border-radius:8px;background:var(--accent-soft);border:1px solid var(--accent);"></div><div style="margin-top:6px;font-size:11px;color:var(--text-3);">8</div></div>
+                <div style="text-align:center;"><div style="width:48px;height:48px;border-radius:12px;background:var(--accent-soft);border:1px solid var(--accent);"></div><div style="margin-top:6px;font-size:11px;color:var(--text-3);">12</div></div>
+                <div style="text-align:center;"><div style="width:48px;height:48px;border-radius:18px;background:var(--accent-soft);border:1px solid var(--accent);"></div><div style="margin-top:6px;font-size:11px;color:var(--text-3);">18</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="height:12px;width:4px;background:var(--accent);border-radius:2px;"></div>
+                <div style="height:12px;width:8px;background:var(--accent);border-radius:2px;"></div>
+                <div style="height:12px;width:12px;background:var(--accent);border-radius:2px;"></div>
+                <div style="height:12px;width:16px;background:var(--accent);border-radius:2px;"></div>
+                <div style="height:12px;width:24px;background:var(--accent);border-radius:2px;"></div>
+                <div style="height:12px;width:32px;background:var(--accent);border-radius:2px;"></div>
+              </div>
+              <div style="margin-top:8px;font-size:11.5px;color:var(--text-3);">4 · 8 · 12 · 16 · 24 · 32 px</div>
+            </section>
+            <section style="background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--sh-sm);padding:22px;">
+              <div style="font-family:'Space Grotesk';font-weight:600;font-size:13px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px;">Elevation</div>
+              <div style="display:flex;gap:16px;align-items:center;">
+                <div style="flex:1;height:52px;border-radius:12px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--sh-sm);display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--text-3);">sm</div>
+                <div style="flex:1;height:52px;border-radius:12px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--sh-md);display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--text-3);">md</div>
+                <div style="flex:1;height:52px;border-radius:12px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--sh-lg);display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--text-3);">lg</div>
+              </div>
+            </section>
+          </div>
+
+          <section style="background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--sh-sm);padding:22px;">
+            <div style="font-family:'Space Grotesk';font-weight:600;font-size:13px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px;">Components</div>
+            <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:20px;">
+              <button style="height:44px;padding:0 20px;border:none;border-radius:12px;background:var(--accent);color:var(--accent-contrast);font-family:'Hanken Grotesk';font-size:14px;font-weight:600;cursor:pointer;box-shadow:var(--sh-sm);transition:background .16s;" style-hover="background:var(--accent-hover)">Primary</button>
+              <button style="height:44px;padding:0 20px;border:1px solid var(--border-strong);border-radius:12px;background:var(--surface);color:var(--text);font-family:'Hanken Grotesk';font-size:14px;font-weight:600;cursor:pointer;box-shadow:var(--sh-sm);transition:background .16s;" style-hover="background:var(--surface-2)">Secondary</button>
+              <button style="height:44px;padding:0 20px;border:none;border-radius:12px;background:var(--danger);color:var(--danger-contrast);font-family:'Hanken Grotesk';font-size:14px;font-weight:600;cursor:pointer;box-shadow:var(--sh-sm);transition:background .16s;" style-hover="background:var(--danger-hover)">Danger</button>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+              <input placeholder="Text input" style="height:44px;flex:1 1 180px;padding:0 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:15px;font-family:'Hanken Grotesk';outline:none;transition:border-color .16s,box-shadow .16s;" style-focus="border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)">
+              <div style="display:flex;align-items:center;height:44px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface);">
+                <div style="width:40px;text-align:center;color:var(--text-2);font-size:19px;">−</div>
+                <div style="width:52px;text-align:center;border-left:1px solid var(--border);border-right:1px solid var(--border);font-family:'Space Grotesk';font-weight:600;">8</div>
+                <div style="width:40px;text-align:center;color:var(--text-2);font-size:19px;">+</div>
+              </div>
+            </div>
+            <div style="margin-top:20px;border:1px solid var(--border);border-radius:14px;padding:18px;background:var(--surface-2);max-width:340px;box-shadow:var(--sh-md);">
+              <div style="font-family:'Space Grotesk';font-weight:600;font-size:15px;margin-bottom:4px;">Modal dialog</div>
+              <div style="font-size:13.5px;color:var(--text-2);margin-bottom:16px;">Scales and fades in over a dimmed backdrop.</div>
+              <div style="display:flex;gap:10px;justify-content:flex-end;">
+                <button style="height:38px;padding:0 14px;border-radius:10px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-family:'Hanken Grotesk';font-size:13.5px;font-weight:600;">Cancel</button>
+                <button style="height:38px;padding:0 16px;border-radius:10px;border:none;background:var(--accent);color:var(--accent-contrast);font-family:'Hanken Grotesk';font-size:13.5px;font-weight:600;">Confirm</button>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </main>
+    </sc-if>
+
+  </div>
+
+  <sc-if value="{{ deletingId }}" hint-placeholder-val="">
+    <div ref="{{ overlayRef }}" onClick="{{ onOverlayClick }}" style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(10,11,15,.5);backdrop-filter:blur(3px);opacity:0;">
+      <div ref="{{ panelRef }}" role="dialog" aria-modal="true" style="width:100%;max-width:400px;background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--sh-lg);padding:24px;opacity:0;">
+        <div style="width:46px;height:46px;border-radius:12px;background:var(--danger-soft);color:var(--danger);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path></svg>
+        </div>
+        <h3 style="margin:0 0 8px;font-family:'Space Grotesk';font-weight:600;font-size:18px;">Delete this habit?</h3>
+        <p style="margin:0 0 22px;color:var(--text-2);font-size:14px;">“{{ deletingName }}” will be removed. This can’t be undone.</p>
+        <div style="display:flex;gap:10px;justify-content:flex-end;">
+          <button onClick="{{ cancelDelete }}" style="height:42px;padding:0 18px;border-radius:11px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-family:'Hanken Grotesk';font-size:14px;font-weight:600;cursor:pointer;transition:background .16s;" style-hover="background:var(--surface-2)">Cancel</button>
+          <button onClick="{{ confirmDelete }}" style="height:42px;padding:0 18px;border-radius:11px;border:none;background:var(--danger);color:var(--danger-contrast);font-family:'Hanken Grotesk';font-size:14px;font-weight:600;cursor:pointer;transition:background .16s;" style-hover="background:var(--danger-hover)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:760},&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;violet&quot;,&quot;teal&quot;,&quot;amber&quot;,&quot;rose&quot;],&quot;default&quot;:&quot;violet&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;seedData&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Content&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const seed = props.seedData ?? true;
+    this._n = 0;
+    this.state = {
+      theme: props.theme || 'light',
+      view: 'manage',
+      habits: seed ? [
+        { id: this.uid(), name: 'Drink water', target: 8, unit: 'glasses' },
+        { id: this.uid(), name: 'Read', target: 30, unit: 'minutes' },
+        { id: this.uid(), name: 'Meditate', target: 10, unit: 'minutes' },
+        { id: this.uid(), name: 'Walk', target: 6000, unit: 'steps' },
+      ] : [],
+      form: { name: '', target: 1, unit: '' },
+      errors: { name: '', target: '' },
+      editingId: null,
+      editForm: { name: '', target: 1, unit: '' },
+      editErrors: { name: '', target: '' },
+      deletingId: null,
+    };
+    this.listRef = React.createRef();
+    this.overlayRef = React.createRef();
+    this.panelRef = React.createRef();
+  }
+
+  uid() { this._n += 1; return 'h' + this._n + '_' + Math.random().toString(36).slice(2, 6); }
+  get anime() { return typeof window !== 'undefined' ? window.anime : null; }
+
+  componentDidMount() { this.animateRowsIn(); }
+
+  animateRowsIn() {
+    const c = this.listRef.current; if (!c) return;
+    const rows = c.querySelectorAll('[data-row]');
+    if (this.anime && rows.length) {
+      rows.forEach(r => { r.style.opacity = 0; });
+      this.anime({ targets: rows, opacity: [0, 1], translateY: [14, 0], duration: 560, delay: this.anime.stagger(55), easing: 'easeOutQuart' });
+    }
+  }
+
+  // ---- validation ----
+  validate(f) {
+    const e = { name: '', target: '' };
+    if (!String(f.name).trim()) e.name = 'Give your habit a name.';
+    const t = parseInt(f.target, 10);
+    if (!Number.isFinite(t) || t < 1) e.target = 'At least 1.';
+    return e;
+  }
+  shake(scope, e) {
+    if (!this.anime) return;
+    ['name', 'target'].forEach(k => {
+      if (!e[k]) return;
+      const el = document.querySelector('[data-' + scope + 'field="' + k + '"]');
+      if (el) this.anime({ targets: el, translateX: [0, -7, 6, -4, 3, 0], duration: 440, easing: 'easeInOutSine' });
+    });
+  }
+
+  // ---- add form ----
+  onName = (e) => { const v = e.target.value; this.setState(s => ({ form: { ...s.form, name: v }, errors: { ...s.errors, name: '' } })); };
+  onUnit = (e) => { const v = e.target.value; this.setState(s => ({ form: { ...s.form, unit: v } })); };
+  onTargetInput = (e) => { const v = e.target.value.replace(/[^0-9]/g, ''); this.setState(s => ({ form: { ...s.form, target: v === '' ? '' : parseInt(v, 10) }, errors: { ...s.errors, target: '' } })); };
+  stepTargetUp = () => this.setState(s => { const t = parseInt(s.form.target, 10); return { form: { ...s.form, target: (Number.isFinite(t) ? t : 0) + 1 }, errors: { ...s.errors, target: '' } }; });
+  stepTargetDown = () => this.setState(s => { const t = parseInt(s.form.target, 10); return { form: { ...s.form, target: Math.max(1, (Number.isFinite(t) ? t : 1) - 1) } }; });
+
+  onAddSubmit = (e) => {
+    e.preventDefault();
+    const f = this.state.form;
+    const errs = this.validate(f);
+    if (errs.name || errs.target) { this.setState({ errors: errs }, () => this.shake('add', errs)); return; }
+    const h = { id: this.uid(), name: f.name.trim(), target: parseInt(f.target, 10), unit: f.unit.trim() };
+    this.setState(s => ({ habits: [h, ...s.habits], form: { name: '', target: 1, unit: '' }, errors: { name: '', target: '' } }),
+      () => this.animateRowIn(h.id));
+  };
+
+  animateRowIn(id) {
+    const c = this.listRef.current; if (!c || !this.anime) return;
+    const el = c.querySelector('[data-row="' + id + '"]'); if (!el) return;
+    const h = el.scrollHeight;
+    el.style.overflow = 'hidden';
+    this.anime.set(el, { height: 0, opacity: 0 });
+    this.anime({ targets: el, height: [0, h], opacity: [0, 1], duration: 520, easing: 'easeOutQuart',
+      complete: () => { el.style.height = 'auto'; el.style.overflow = 'visible'; } });
+    const inner = el.firstElementChild;
+    if (inner) this.anime({ targets: inner, translateY: [-10, 0], duration: 560, easing: 'easeOutQuart' });
+  }
+
+  // ---- edit (inline) ----
+  startEdit = (h) => { this.setState({ editingId: h.id, editForm: { name: h.name, target: h.target, unit: h.unit || '' }, editErrors: { name: '', target: '' } }, () => this.animateEditIn(h.id)); };
+  animateEditIn(id) { if (!this.anime) return; const el = document.querySelector('[data-editform="' + id + '"]'); if (el) this.anime({ targets: el, opacity: [0, 1], duration: 260, easing: 'easeOutQuad' }); }
+  onCancelEdit = () => this.setState({ editingId: null, editErrors: { name: '', target: '' } });
+  onEditName = (e) => { const v = e.target.value; this.setState(s => ({ editForm: { ...s.editForm, name: v }, editErrors: { ...s.editErrors, name: '' } })); };
+  onEditUnit = (e) => { const v = e.target.value; this.setState(s => ({ editForm: { ...s.editForm, unit: v } })); };
+  onEditTarget = (e) => { const v = e.target.value.replace(/[^0-9]/g, ''); this.setState(s => ({ editForm: { ...s.editForm, target: v === '' ? '' : parseInt(v, 10) }, editErrors: { ...s.editErrors, target: '' } })); };
+  editStepUp = () => this.setState(s => { const t = parseInt(s.editForm.target, 10); return { editForm: { ...s.editForm, target: (Number.isFinite(t) ? t : 0) + 1 }, editErrors: { ...s.editErrors, target: '' } }; });
+  editStepDown = () => this.setState(s => { const t = parseInt(s.editForm.target, 10); return { editForm: { ...s.editForm, target: Math.max(1, (Number.isFinite(t) ? t : 1) - 1) } }; });
+  onEditSubmit = (e) => {
+    e.preventDefault();
+    const f = this.state.editForm;
+    const errs = this.validate(f);
+    if (errs.name || errs.target) { this.setState({ editErrors: errs }, () => this.shake('edit', errs)); return; }
+    const id = this.state.editingId;
+    this.setState(s => ({ habits: s.habits.map(h => h.id === id ? { ...h, name: f.name.trim(), target: parseInt(f.target, 10), unit: f.unit.trim() } : h), editingId: null, editErrors: { name: '', target: '' } }));
+  };
+
+  // ---- delete ----
+  requestDelete = (id) => this.setState({ deletingId: id }, () => this.animateDialogIn());
+  animateDialogIn() {
+    if (!this.anime) return;
+    const o = this.overlayRef.current, p = this.panelRef.current;
+    if (o) this.anime({ targets: o, opacity: [0, 1], duration: 220, easing: 'easeOutQuad' });
+    if (p) this.anime({ targets: p, opacity: [0, 1], scale: [0.94, 1], translateY: [10, 0], duration: 320, easing: 'easeOutBack' });
+  }
+  closeDialog(cb) {
+    if (!this.anime) { this.setState({ deletingId: null }, cb); return; }
+    const o = this.overlayRef.current, p = this.panelRef.current;
+    if (p) this.anime({ targets: p, opacity: [1, 0], scale: [1, 0.96], translateY: [0, 8], duration: 200, easing: 'easeInQuad' });
+    if (o) this.anime({ targets: o, opacity: [1, 0], duration: 220, easing: 'easeInQuad', complete: () => this.setState({ deletingId: null }, cb) });
+    else this.setState({ deletingId: null }, cb);
+  }
+  cancelDelete = () => this.closeDialog();
+  onOverlayClick = (e) => { if (e.target === this.overlayRef.current) this.closeDialog(); };
+  confirmDelete = () => {
+    const id = this.state.deletingId; if (!id) return;
+    const remove = () => {
+      const c = this.listRef.current;
+      const el = c && c.querySelector('[data-row="' + id + '"]');
+      if (this.anime && el) {
+        el.style.overflow = 'hidden';
+        this.anime({ targets: el, height: [el.scrollHeight, 0], opacity: [1, 0], duration: 420, easing: 'easeInQuart',
+          complete: () => this.setState(s => ({ habits: s.habits.filter(h => h.id !== id) })) });
+      } else {
+        this.setState(s => ({ habits: s.habits.filter(h => h.id !== id) }));
+      }
+    };
+    this.closeDialog(remove);
+  };
+
+  // ---- chrome ----
+  toggleTheme = () => this.setState(s => ({ theme: s.theme === 'dark' ? 'light' : 'dark' }));
+  setManage = () => this.setState({ view: 'manage' }, () => this.animateRowsIn());
+  setSystem = () => this.setState({ view: 'system' });
+
+  renderVals() {
+    const s = this.state;
+    const tabBase = 'height:32px;padding:0 14px;border:none;border-radius:8px;font-family:\'Hanken Grotesk\';font-size:13.5px;font-weight:600;cursor:pointer;transition:background .16s,color .16s;';
+    const tabOn = tabBase + 'background:var(--surface);color:var(--text);box-shadow:var(--sh-sm);';
+    const tabOff = tabBase + 'background:transparent;color:var(--text-3);';
+
+    const viewHabits = s.habits.map(h => {
+      const editing = h.id === s.editingId;
+      const targetLabel = h.unit ? (h.target + ' ' + h.unit) : (h.target + ' / day');
+      return {
+        id: h.id, name: h.name, targetLabel,
+        editing, display: !editing,
+        ev: editing ? s.editForm : { name: '', target: 1, unit: '' },
+        everr: editing ? s.editErrors : { name: '', target: '' },
+        onEdit: () => this.startEdit(h),
+        onDelete: () => this.requestDelete(h.id),
+        onEditSubmit: this.onEditSubmit,
+        onEditName: this.onEditName,
+        onEditUnit: this.onEditUnit,
+        onEditTarget: this.onEditTarget,
+        onEditStepUp: this.editStepUp,
+        onEditStepDown: this.editStepDown,
+      };
+    });
+
+    const deleting = s.habits.find(h => h.id === s.deletingId);
+
+    return {
+      theme: s.theme, accentAttr: this.props.accent || 'violet',
+      isDark: s.theme === 'dark', isLight: s.theme === 'light',
+      isManage: s.view === 'manage', isSystem: s.view === 'system',
+      tabManageStyle: s.view === 'manage' ? tabOn : tabOff,
+      tabSystemStyle: s.view === 'system' ? tabOn : tabOff,
+
+      form: s.form, errors: s.errors,
+      onName: this.onName, onUnit: this.onUnit, onTargetInput: this.onTargetInput,
+      stepTargetUp: this.stepTargetUp, stepTargetDown: this.stepTargetDown,
+      onAddSubmit: this.onAddSubmit,
+
+      viewHabits,
+      hasHabits: s.habits.length > 0, isEmpty: s.habits.length === 0,
+      countLabel: s.habits.length === 1 ? '1 habit' : s.habits.length + ' habits',
+
+      onCancelEdit: this.onCancelEdit,
+
+      deletingId: s.deletingId,
+      deletingName: deleting ? deleting.name : '',
+      cancelDelete: this.cancelDelete, confirmDelete: this.confirmDelete, onOverlayClick: this.onOverlayClick,
+
+      toggleTheme: this.toggleTheme, setManage: this.setManage, setSystem: this.setSystem,
+
+      listRef: this.listRef, overlayRef: this.overlayRef, panelRef: this.panelRef,
+
+      swatches: [
+        { name: 'Surface', role: 'cards, inputs', css: 'var(--surface)' },
+        { name: 'Surface 2', role: 'wells, hover', css: 'var(--surface-2)' },
+        { name: 'Border', role: 'dividers', css: 'var(--border)' },
+        { name: 'Text', role: 'primary copy', css: 'var(--text)' },
+        { name: 'Accent', role: 'actions', css: 'var(--accent)' },
+        { name: 'Danger', role: 'destructive', css: 'var(--danger)' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
