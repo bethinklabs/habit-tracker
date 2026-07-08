@@ -86,3 +86,12 @@ Two adjustments made while looping to green:
 All seven Playwright tests pass. The screen matches the design in light and
 dark and in every state, with no console or hydration errors. This is
 `checkpoint/01-habits`.
+
+## Fix after review
+
+The first build showed each habit's target as plain grey text. The design
+actually shows it in a soft-accent pill (for example "8 glasses"). This was
+missed because the design screenshot was cropped above the habit rows. Fixed by
+rendering the target as an accent pill (matching the design's inline styles) plus
+a thin divider before the row actions. A reminder to read the design markup, not
+just the screenshot.

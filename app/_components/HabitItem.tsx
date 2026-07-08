@@ -35,11 +35,22 @@ export default function HabitItem({
         <>
           <div className="min-w-0 flex-1">
             <div className="truncate font-medium">{habit.name}</div>
-            <div className="mt-0.5 text-sm text-[var(--muted)]">
-              {habit.target}
-              {habit.unit ? ` ${habit.unit}` : ""} · daily
+            <div className="mt-1.5">
+              <span
+                className="inline-flex items-center gap-1.5 font-semibold tabular-nums"
+                style={{
+                  padding: "2px 9px",
+                  borderRadius: "7px",
+                  background: "var(--accent-soft)",
+                  color: "var(--accent)",
+                  fontSize: "12.5px",
+                }}
+              >
+                {habit.unit ? `${habit.target} ${habit.unit}` : `${habit.target} / day`}
+              </span>
             </div>
           </div>
+          <div className="hidden h-6 w-px shrink-0 bg-[var(--border)] sm:block" />
           <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
