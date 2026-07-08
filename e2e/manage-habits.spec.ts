@@ -22,7 +22,9 @@ import { test, expect, type Page } from '@playwright/test'
  *   "Save" button.
  * - Delete: clicking "Delete" opens a dialog (role=dialog) containing the text
  *   "Delete this habit?" with "Cancel" and "Delete" buttons.
- * - Validation errors are announced with role="alert".
+ * - Validation errors are announced with role="alert" inside the relevant form
+ *   (scoped in the tests, since Next.js also renders a global role="alert"
+ *   route announcer).
  *
  * Each test starts from a fresh browser context, so localStorage is empty.
  */
@@ -74,19 +76,21 @@ test('keeps an added habit after a page reload (criterion 2)', async ({ page }) 
 })
 
 test('rejects an empty name and adds nothing (criterion 3)', async ({ page }) => {
+  const addForm = page.getByRole('form', { name: 'Add a habit' })
   await page.getByLabel('Daily target').fill('5')
   await page.getByRole('button', { name: 'Add habit' }).click()
 
-  await expect(page.getByRole('alert')).toBeVisible()
+  await expect(addForm.getByRole('alert')).toBeVisible()
   await expect(page.getByRole('listitem')).toHaveCount(0)
 })
 
 test('rejects a target below 1 and adds nothing (criterion 3)', async ({ page }) => {
+  const addForm = page.getByRole('form', { name: 'Add a habit' })
   await page.getByLabel('Habit name').fill('Pushups')
   await page.getByLabel('Daily target').fill('0')
   await page.getByRole('button', { name: 'Add habit' }).click()
 
-  await expect(page.getByRole('alert')).toBeVisible()
+  await expect(addForm.getByRole('alert')).toBeVisible()
   await expect(habitRow(page, 'Pushups')).toHaveCount(0)
 })
 
